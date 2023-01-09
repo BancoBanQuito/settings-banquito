@@ -1,12 +1,8 @@
 package com.banquito.settings.service;
 
-
 import java.util.List;
-
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.banquito.settings.model.Holiday;
 import com.banquito.settings.repository.HolidayRepository;
 
@@ -23,29 +19,27 @@ public class HolidayService {
         return holidayRepository.findAll();
     }
 
-    public List<Holiday> findByNameLike(String name){
+    public List<Holiday> findByName(String name){
         return holidayRepository.findByName(name);
     }
 
-    public List<Holiday> findByDateLike(String date){
+    public List<Holiday> findByDate(String date){
         return holidayRepository.findByDate(date);
     }
+
     @Transactional
     public void createHoliday(Holiday holiday){
         this.holidayRepository.save(holiday);
     }
 
     @Transactional
-    public void updateBranch(String date, Holiday holiday){
+    public void updateHoliday(String date, Holiday holiday){
         this.holidayRepository.save(holiday);
     }
 
     @Transactional
-    public void deleteHoliday(String code, Holiday holiday){
+    public void deleteHoliday(String date, Holiday holiday){
         this.holidayRepository.delete(holiday);
     }
-
-
-
     
 }
