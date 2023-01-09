@@ -10,6 +10,7 @@ import com.banquito.settings.model.Holiday;
 public interface HolidayRepository extends MongoRepository<Holiday, Date>{
     
     List<Holiday> findByName(String name);
+
     List<Holiday> findByDate(String date);
     
 }

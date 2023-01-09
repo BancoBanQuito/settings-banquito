@@ -12,7 +12,6 @@ import com.banquito.settings.service.HolidayService;
 
 @RestController
 @RequestMapping("/api/holiday")
-
 public class HolidayController {
 
     private final HolidayService holidayService;

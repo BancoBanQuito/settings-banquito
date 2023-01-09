@@ -1,6 +1,5 @@
 package com.banquito.settings.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,8 +20,8 @@ public class Holiday {
 
     @Field(value="name")
     private String name;
-
     
     @Field(value="type")
     private String type;
+
 }
