@@ -18,7 +18,7 @@ public interface LocationRepository extends MongoRepository<Location, String> {
 
 	List<Location> findByParish(String parish);
 
-	List<Location> findByCompleteLocation(String country, String province, String canton,
+	List<Location> findByCountryAndProvinceAndCantonAndParish(String country, String province, String canton,
 			String parish);
 
 }
