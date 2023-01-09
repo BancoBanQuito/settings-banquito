@@ -20,6 +20,10 @@ public class LocationService {
 		return locationRepository.findAll();
 	}
 
+	public List<Location> findByCompleteLocation(String country, String province, String canton, String parish) {
+		return locationRepository.findByCompleteLocation(country, province, canton, parish);
+	}
+
 	public List<Location> findByCountry(String country) {
 		return locationRepository.findByCountry(country);
 	}

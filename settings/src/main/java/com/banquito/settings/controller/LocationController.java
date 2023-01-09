@@ -27,6 +27,16 @@ public class LocationController {
 		return ResponseEntity.ok(this.locationService.findAll());
 	}
 
+	@RequestMapping(value = "/country/{country}/province/{province}/canton/{canton}/parish/{parish}", method = RequestMethod.GET)
+	public ResponseEntity<List<Location>> findByCompleteLocation(
+			@PathVariable("country") String country,
+			@PathVariable("province") String province,
+			@PathVariable("canton") String canton,
+			@PathVariable("parish") String parish) {
+		return ResponseEntity
+				.ok(this.locationService.findByCompleteLocation(country, province, canton, parish));
+	}
+
 	@RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
 	public ResponseEntity<List<Location>> findByCountry(@PathVariable("country") String country) {
 		return ResponseEntity.ok(this.locationService.findByCountry(country));
