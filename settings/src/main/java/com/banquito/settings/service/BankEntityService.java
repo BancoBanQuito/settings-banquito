@@ -21,7 +21,7 @@ public class BankEntityService {
 	}
 
 	@Transactional
-	public void updateBranch(String code, BankEntity bankEntity) {
+	public void updateBankEntity(BankEntity bankEntity) {
 		this.bankEntityRepository.save(bankEntity);
 	}
 }
