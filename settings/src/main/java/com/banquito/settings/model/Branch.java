@@ -1,36 +1,31 @@
 package com.banquito.settings.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@Document(collection = "branch")
+@Builder
+@Document(collection = "branches")
 public class Branch {
 
     @Id
-    private String code;
-
-    @Field(value = "international_code")
-    private String internationalCode;
-
-    @Field(value = "bank_entity_code")
-    private String bankEntityCode;
-
-    @Field(value = "international_bank_code")
-    private String internationalBankCode;
-
-    @Field(value = "location_code")
-    private Integer locationCode;
-
-    @Field(value = "name")
+    private String id;
     private String name;
-
-    @Field(value = "address")
+    private Integer phoneNumber;
     private String address;
+
+    private BranchOfficeHour branchOfficeHours;
+    private BankEntity bankEntity;
+    private Location location;
+    private List<Holiday> holidays;
+
+    @Version
+    private Integer version;
 
 }

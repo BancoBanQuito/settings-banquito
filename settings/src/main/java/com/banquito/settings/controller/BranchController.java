@@ -1,5 +1,8 @@
 package com.banquito.settings.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banquito.settings.controller.dto.BranchRQ;
+import com.banquito.settings.controller.dto.BranchRS;
+import com.banquito.settings.controller.mapper.BranchMapper;
 import com.banquito.settings.model.Branch;
 import com.banquito.settings.service.BranchService;
 
@@ -20,28 +26,57 @@ public class BranchController {
         this.branchService = branchService;
     }
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Object findAll() {
-        return ResponseEntity.ok(this.branchService.findAll());
+        Iterable<Branch> branches = this.branchService.findAll();
+        List<BranchRS> branchesRS = new ArrayList<>();
+        for (Branch branch : branches)
+            branchesRS.add(BranchMapper.toBranchRS(branch));
+        if (branchesRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(branchesRS);
     }
 
     @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
     public Object findByNameLike(@PathVariable("name") String name) {
-        return ResponseEntity.ok(this.branchService.findByNameLike(name));
+        Iterable<Branch> branches = this.branchService.findByNameLike(name);
+        List<BranchRS> branchesRS = new ArrayList<>();
+        for (Branch branch : branches)
+            branchesRS.add(BranchMapper.toBranchRS(branch));
+        if (branchesRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(branchesRS);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public Object createBranch(@RequestBody Branch branch) {
-        return ResponseEntity.ok("Branch created successfully");
+    public Object createBranch(@RequestBody BranchRQ branchRQ) {
+        try {
+            this.branchService.createBranch(BranchMapper.toBranchRQ(branchRQ));
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
-    @RequestMapping(value = "/code/{code}", method = RequestMethod.PUT)
-    public Object createBranch(@PathVariable("code") String code, @RequestBody Branch branch) {
-        return ResponseEntity.ok("Branch updated successfully");
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.PUT)
+    public Object updateBranch(@PathVariable("id") String id, @RequestBody BranchRQ branchRQ) {
+        try {
+            this.branchService.updateBranch(id, BranchMapper.toBranchRQ(branchRQ));
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
-    @RequestMapping(value = "/code/{code}", method = RequestMethod.DELETE)
-    public Object deleteBranch(@PathVariable("code") String code, @RequestBody Branch branch) {
-        return ResponseEntity.ok("Branch deleted successfully");
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public Object deleteBranch(@PathVariable("id") String id, @RequestBody Branch branch) {
+        try {
+            this.branchService.deleteBranch(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
