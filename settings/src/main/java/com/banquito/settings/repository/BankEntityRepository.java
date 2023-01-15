@@ -1,11 +1,8 @@
 package com.banquito.settings.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.banquito.settings.model.BankEntity;
-
-@Repository
-public interface BankEntityRepository extends MongoRepository<BankEntity, String> {
+public interface BankEntityRepository extends CrudRepository<BankEntity, String>{
 
 }
