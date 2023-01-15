@@ -15,12 +15,10 @@ import lombok.Data;
 public class BankEntity {
 	
 	@Id
-	private String code;
+	private String id;
 
 	private String internationalBankCode;
 	private String name;
-
-	private List<Branch> branches;
 
 	@Version
 	private Long version;
