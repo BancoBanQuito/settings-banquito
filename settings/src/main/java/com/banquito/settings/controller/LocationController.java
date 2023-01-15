@@ -57,7 +57,7 @@ public class LocationController {
 		return ResponseEntity.ok(this.locationService.findParroquiasByNombreParroquia(nombreParroquia));
 	}
 
-	@RequestMapping(value = "/provincia", method = RequestMethod.PUT)
+	@RequestMapping(value = "/provincia", method = RequestMethod.POST)
 	public Object createProvince(@RequestBody Map<String, String> requestBody) {
 		try {
 			Location.Provincia provincia = Location.Provincia.builder()
@@ -70,7 +70,7 @@ public class LocationController {
 		}
 	}
 
-	@RequestMapping(value = "/canton", method = RequestMethod.PUT)
+	@RequestMapping(value = "/canton", method = RequestMethod.POST)
 	public Object createCanton(@RequestBody Map<String, String> requestBody) {
 		try {
 			String provinceName = requestBody.get("nombreProvincia");
@@ -85,7 +85,7 @@ public class LocationController {
 		}
 	}
 
-	@RequestMapping(value = "/parroquia", method = RequestMethod.PUT)
+	@RequestMapping(value = "/parroquia", method = RequestMethod.POST)
 	public Object createParroquia(@RequestBody Map<String, String> requestBody) {
 		try {
 			String provinceName = requestBody.get("nombreProvincia");
@@ -97,6 +97,46 @@ public class LocationController {
 					.codigoPostal(codigoPostal)
 					.build();
 			this.locationService.createParroquia(provinceName, cantonName, parroquia);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/provincia/{nombreProvincia}", method = RequestMethod.PUT)
+	public Object updateProvince(@PathVariable("nombreProvincia") String nombreProvincia,
+			@RequestBody Map<String, String> requestBody) {
+		try {
+			this.locationService.updateProvincia("63c424969696e95c3534f89b", nombreProvincia,
+					requestBody.get("nombreProvincia"));
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/canton/{nombreCanton}", method = RequestMethod.PUT)
+	public Object updateCanton(@PathVariable("nombreCanton") String nombreCanton,
+			@RequestBody Map<String, String> requestBody) {
+		try {
+			this.locationService.updateCanton(nombreCanton, requestBody.get("nombreCanton"));
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/parroquia/{nombreParroquia}", method = RequestMethod.PUT)
+	public Object updateParroquia(@PathVariable("nombreParroquia") String nombreParroquia,
+			@RequestBody Map<String, String> requestBody) {
+		try {
+			String nombre = requestBody.get("nombreParroquia");
+			String codigoPostal = requestBody.get("codigoPostal");
+			Location.Parroquia parroquia = Location.Parroquia.builder()
+					.nombreParroquia(nombre)
+					.codigoPostal(codigoPostal)
+					.build();
+			this.locationService.updateParroquia("63c424969696e95c3534f89b", nombreParroquia, parroquia);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(e.getMessage());

@@ -1,6 +1,7 @@
 package com.banquito.settings.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -163,6 +164,60 @@ public class LocationService {
 		} else {
 			throw new RuntimeException("Province not found");
 		}
+	}
+
+	@Transactional
+	public void updateProvincia(String id, String nombreProvincia, String newNombreProvincia) {
+		Location existingLocation = this.locationRepository.findById(id).orElse(null);
+		if (existingLocation != null) {
+
+			Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+					.filter(provincia -> provincia.getNombreProvincia() != null
+							&& provincia.getNombreProvincia().equals(nombreProvincia))
+					.findFirst();
+
+			if (existingProvince.isPresent()) {
+				existingProvince.get().setNombreProvincia(newNombreProvincia);
+				this.locationRepository.save(existingLocation);
+			}
+		}
+	}
+
+	@Transactional
+	public void updateCanton(String nombreCanton, String newNombreCanton) {
+		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").orElseThrow();
+		Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+				.filter(province -> province.getCantones().stream()
+						.anyMatch(canton -> canton.getNombreCanton().equals(nombreCanton)))
+				.findFirst();
+		if (existingProvince.isPresent()) {
+			existingProvince.get().getCantones().stream()
+					.filter(canton -> canton.getNombreCanton().equals(nombreCanton))
+					.findFirst()
+					.ifPresent(canton -> canton.setNombreCanton(newNombreCanton));
+		}
+		locationRepository.save(existingLocation);
+	}
+
+	public Location updateParroquia(String id, String parroquiaName, Location.Parroquia parroquia) {
+		Optional<Location> locationOptional = locationRepository.findById(id);
+		if (locationOptional.isPresent()) {
+			Location existingLocation = locationOptional.get();
+			for (Location.Provincia provincia : existingLocation.getProvincias()) {
+				for (Location.Canton canton : provincia.getCantones()) {
+					for (Iterator<Location.Parroquia> iterator = canton.getParroquias().iterator(); iterator
+							.hasNext();) {
+						Location.Parroquia existingParroquia = iterator.next();
+						if (existingParroquia.getNombreParroquia().equals(parroquiaName)) {
+							existingParroquia.setNombreParroquia(parroquia.getNombreParroquia());
+							existingParroquia.setCodigoPostal(parroquia.getCodigoPostal());
+							return locationRepository.save(existingLocation);
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public Location save(Location location) {
