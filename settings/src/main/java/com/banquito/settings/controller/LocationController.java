@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.banquito.settings.controller.dto.LocationRQ;
 import com.banquito.settings.controller.dto.LocationRS;
 import com.banquito.settings.controller.mapper.LocationMapper;
 import com.banquito.settings.model.Location;
@@ -65,6 +64,39 @@ public class LocationController {
 					.nombreProvincia(requestBody.get("nombreProvincia"))
 					.build();
 			this.locationService.createProvincia("63c424969696e95c3534f89b", provincia);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/canton", method = RequestMethod.PUT)
+	public Object createCanton(@RequestBody Map<String, String> requestBody) {
+		try {
+			String provinceName = requestBody.get("nombreProvincia");
+			String cantonName = requestBody.get("nombreCanton");
+			Location.Canton canton = Location.Canton.builder()
+					.nombreCanton(cantonName)
+					.build();
+			this.locationService.createCanton(provinceName, canton);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/parroquia", method = RequestMethod.PUT)
+	public Object createParroquia(@RequestBody Map<String, String> requestBody) {
+		try {
+			String provinceName = requestBody.get("nombreProvincia");
+			String cantonName = requestBody.get("nombreCanton");
+			String parroquiaName = requestBody.get("nombreParroquia");
+			String codigoPostal = requestBody.get("codigoPostal");
+			Location.Parroquia parroquia = Location.Parroquia.builder()
+					.nombreParroquia(parroquiaName)
+					.codigoPostal(codigoPostal)
+					.build();
+			this.locationService.createParroquia(provinceName, cantonName, parroquia);
 			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(e.getMessage());

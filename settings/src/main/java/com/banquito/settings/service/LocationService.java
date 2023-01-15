@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.settings.model.Location;
-import com.banquito.settings.model.Location.Provincia;
 import com.banquito.settings.repository.LocationRepository;
 
 @Service
@@ -122,12 +121,47 @@ public class LocationService {
 		this.locationRepository.save(location);
 	}
 
-	public Location findById(String id) {
-		Optional<Location> locationOpt = locationRepository.findById(id);
-		if (locationOpt.isPresent()) {
-			return locationOpt.get();
+	@Transactional
+	public void createCanton(String provinceName, Location.Canton canton) {
+		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").get();
+		Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+				.filter(provincia -> provincia.getNombreProvincia() != null
+						&& provincia.getNombreProvincia().equals(provinceName))
+				.findFirst();
+		if (existingProvince.isPresent()) {
+			if (existingProvince.get().getCantones() == null) {
+				existingProvince.get().setCantones(new ArrayList<>());
+			}
+			existingProvince.get().getCantones().add(canton);
+			locationRepository.save(existingLocation);
 		} else {
-			throw new RuntimeException("No se encontro la locacion");
+			throw new RuntimeException("Province not found");
+		}
+	}
+
+	@Transactional
+	public void createParroquia(String provinceName, String cantonName, Location.Parroquia parroquia) {
+		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").get();
+		Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+				.filter(provincia -> provincia.getNombreProvincia() != null
+						&& provincia.getNombreProvincia().equals(provinceName))
+				.findFirst();
+		if (existingProvince.isPresent()) {
+			Optional<Location.Canton> existingCanton = existingProvince.get().getCantones().stream()
+					.filter(canton -> canton.getNombreCanton() != null
+							&& canton.getNombreCanton().equals(cantonName))
+					.findFirst();
+			if (existingCanton.isPresent()) {
+				if (existingCanton.get().getParroquias() == null) {
+					existingCanton.get().setParroquias(new ArrayList<>());
+				}
+				existingCanton.get().getParroquias().add(parroquia);
+				locationRepository.save(existingLocation);
+			} else {
+				throw new RuntimeException("Canton not found");
+			}
+		} else {
+			throw new RuntimeException("Province not found");
 		}
 	}
 
