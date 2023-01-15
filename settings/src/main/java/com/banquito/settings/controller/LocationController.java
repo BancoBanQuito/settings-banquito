@@ -143,6 +143,36 @@ public class LocationController {
 		}
 	}
 
+	@RequestMapping(value = "/provincia/{nombreProvincia}", method = RequestMethod.DELETE)
+	public Object deleteProvince(@PathVariable("nombreProvincia") String nombreProvincia) {
+		try {
+			this.locationService.deleteProvincia("63c424969696e95c3534f89b", nombreProvincia);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/canton/{nombreCanton}", method = RequestMethod.DELETE)
+	public Object deleteCanton(@PathVariable("nombreCanton") String nombreCanton) {
+		try {
+			this.locationService.deleteCanton(nombreCanton);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
+	@RequestMapping(value = "/parroquia/{nombreParroquia}", method = RequestMethod.DELETE)
+	public Object deleteParroquia(@PathVariable("nombreParroquia") String nombreParroquia) {
+		try {
+			this.locationService.deleteParroquia("63c424969696e95c3534f89b", nombreParroquia);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Object findAll() {
 		Iterable<Location> locations = this.locationService.findAll();

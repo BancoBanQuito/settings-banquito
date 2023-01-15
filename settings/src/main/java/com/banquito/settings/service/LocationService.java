@@ -220,6 +220,51 @@ public class LocationService {
 		return null;
 	}
 
+	public void deleteProvincia(String id, String nombreProvincia) {
+		Location existingLocation = this.locationRepository.findById(id).orElse(null);
+		if (existingLocation != null) {
+			Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+					.filter(provincia -> provincia.getNombreProvincia() != null
+							&& provincia.getNombreProvincia().equals(nombreProvincia))
+					.findFirst();
+			if (existingProvince.isPresent()) {
+				existingLocation.getProvincias().remove(existingProvince.get());
+				this.locationRepository.save(existingLocation);
+			}
+		}
+	}
+
+	public void deleteCanton(String nombreCanton) {
+		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").orElseThrow();
+		Optional<Location.Provincia> existingProvince = existingLocation.getProvincias().stream()
+				.filter(province -> province.getCantones().stream()
+						.anyMatch(canton -> canton.getNombreCanton().equals(nombreCanton)))
+				.findFirst();
+		if (existingProvince.isPresent()) {
+			existingProvince.get().getCantones().removeIf(canton -> canton.getNombreCanton().equals(nombreCanton));
+		}
+		locationRepository.save(existingLocation);
+	}
+
+	public void deleteParroquia(String id, String parroquiaName) {
+		Optional<Location> locationOptional = locationRepository.findById(id);
+		if (locationOptional.isPresent()) {
+			Location existingLocation = locationOptional.get();
+			for (Location.Provincia provincia : existingLocation.getProvincias()) {
+				for (Location.Canton canton : provincia.getCantones()) {
+					for (Iterator<Location.Parroquia> iterator = canton.getParroquias().iterator(); iterator
+							.hasNext();) {
+						Location.Parroquia existingParroquia = iterator.next();
+						if (existingParroquia.getNombreParroquia().equals(parroquiaName)) {
+							iterator.remove();
+							locationRepository.save(existingLocation);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public Location save(Location location) {
 		return locationRepository.save(location);
 	}
