@@ -1,0 +1,111 @@
+{
+  "pais": "Ecuador",
+  "codigo_telefonico": "+593",
+  "provincias": [
+    {
+      "nombre": "Pichincha",
+      "cantones": [
+        {
+          "nombre": "quito",
+          "parroquias": [
+            {
+              "nombre": "carcelen",
+              "codigo postal": "170101"
+            },
+            {
+              "nombre": "centro norte",
+              "codigo postal": "170102"
+            },
+            {
+              "nombre": "chillogallo",
+              "codigo postal": "170103"
+            },
+            {
+              "nombre": "el batan",
+              "codigo postal": "170104"
+            }
+          ]
+        },
+        {
+          "nombre": "cayambe",
+          "parroquias": [
+            {
+              "nombre": "cayambe",
+              "codigo postal": "170201"
+            },
+            {
+              "nombre": "pifo",
+              "codigo postal": "170202"
+            },
+            {
+              "nombre": "mejia",
+              "codigo postal": "170203"
+            },
+            {
+              "nombre": "pedro vicente maldonado",
+              "codigo postal": "170204"
+            }
+          ]
+        },
+        {
+          "nombre": "mejia",
+          "parroquias": [
+            {
+              "nombre": "mejia",
+              "codigo postal": "170301"
+            },
+            {
+              "nombre": "pedro vicente maldonado",
+              "codigo postal": "170302"
+            }
+          ]
+        },
+        {
+          "nombre": "pedro vicente maldonado",
+          "parroquias": [
+            {
+              "nombre": "pedro vicente maldonado",
+              "codigo postal": "170401"
+            }
+          ]
+        },
+        {
+          "nombre": "ruminahui",
+          "parroquias": [
+            {
+              "nombre": "ruminahui",
+              "codigo postal": "170501"
+            }
+          ]
+        },
+        {
+          "nombre": "san miguel de los bancos",
+          "parroquias": [
+            {
+              "nombre": "san miguel de los bancos",
+              "codigo postal": "170601"
+            }
+          ]
+        },
+        {
+          "nombre": "pedro moncayo",
+          "parroquias": [
+            {
+              "nombre": "pedro moncayo",
+              "codigo postal": "170701"
+            }
+          ]
+        },
+        {
+          "nombre": "bolivar",
+          "parroquias": [
+            {
+              "nombre": "bolivar",
+              "codigo postal": "170801"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

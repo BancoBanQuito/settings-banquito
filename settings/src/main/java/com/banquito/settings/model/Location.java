@@ -1,11 +1,13 @@
 package com.banquito.settings.model;
 
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Data;
 import lombok.Builder;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
@@ -13,11 +15,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Location {
 	@Id
 	private String id;
-	private String provincia;
-	private String parroquia;
-	@Indexed
-	private String canton;
-	private String codigoPostal;
+	private String nombrePais;
+	private String codigoTelefonico;
+	private List<Provincia> provincias;
 	@Version
 	private Long version;
+
+	@Data
+	@Builder
+	public static class Provincia {
+		private String nombreProvincia;
+		private List<Canton> cantones;
+	}
+
+	@Data
+	@Builder
+	public static class Canton {
+		private String nombreCanton;
+		private List<Parroquia> parroquias;
+	}
+
+	@Data
+	@Builder
+	public static class Parroquia {
+		private String nombreParroquia;
+		private String codigoPostal;
+	}
 }
