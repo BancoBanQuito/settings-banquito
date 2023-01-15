@@ -22,55 +22,48 @@ public class LocationController {
 		this.locationService = locationService;
 	}
 
-	@RequestMapping(value = "all", method = RequestMethod.GET)
+	@RequestMapping(value = "/provincias", method = RequestMethod.GET)
+	public ResponseEntity<List<Location.Provincia>> findAllProvincias() {
+		return ResponseEntity.ok(this.locationService.findAllProvincias());
+	}
+
+	@RequestMapping(value = "/cantones", method = RequestMethod.GET)
+	public ResponseEntity<List<Location.Canton>> findAllCantones() {
+		return ResponseEntity.ok(this.locationService.findAllCantones());
+	}
+
+	@RequestMapping(value = "/parroquias", method = RequestMethod.GET)
+	public ResponseEntity<List<Location.Parroquia>> findAllParroquias() {
+		return ResponseEntity.ok(this.locationService.findAllParroquias());
+	}
+
+	@RequestMapping(value = "/provincia/{nombreProvincia}", method = RequestMethod.GET)
+	public ResponseEntity<Location.Provincia> findByProvincia(@PathVariable String nombreProvincia) {
+		return ResponseEntity.ok(this.locationService.findProvinciasByNombreProvincia(nombreProvincia));
+
+	}
+
+	@RequestMapping(value = "/canton/{nombreCanton}", method = RequestMethod.GET)
+	public ResponseEntity<Location.Canton> findByCanton(@PathVariable String nombreCanton) {
+		return ResponseEntity.ok(this.locationService.findCantonesByNombreCanton(nombreCanton));
+	}
+
+	@RequestMapping(value = "/parroquia/{nombreParroquia}", method = RequestMethod.GET)
+	public ResponseEntity<Location.Parroquia> findByParroquia(@PathVariable String nombreParroquia) {
+		return ResponseEntity.ok(this.locationService.findParroquiasByNombreParroquia(nombreParroquia));
+	}
+
+	/*
+	 * @RequestMapping(value = "/provincia", method = RequestMethod.POST)
+	 * public ResponseEntity<Location> createProvincia(@RequestBody Location
+	 * location) {
+	 * return ResponseEntity.ok(this.locationService.save(location));
+	 * }
+	 */
+
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<List<Location>> findAll() {
 		return ResponseEntity.ok(this.locationService.findAll());
 	}
 
-	@RequestMapping(value = "/country/{country}/province/{province}/canton/{canton}/parish/{parish}", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findByCompleteLocation(
-			@PathVariable("country") String country,
-			@PathVariable("province") String province,
-			@PathVariable("canton") String canton,
-			@PathVariable("parish") String parish) {
-		return ResponseEntity
-				.ok(this.locationService.findByCompleteLocation(country, province, canton, parish));
-	}
-
-	@RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findByCountry(@PathVariable("country") String country) {
-		return ResponseEntity.ok(this.locationService.findByCountry(country));
-	}
-
-	@RequestMapping(value = "/province/{province}", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findByProvince(@PathVariable("province") String province) {
-		return ResponseEntity.ok(this.locationService.findByProvince(province));
-	}
-
-	@RequestMapping(value = "/canton/{canton}", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findByCanton(@PathVariable("canton") String canton) {
-		return ResponseEntity.ok(this.locationService.findByCanton(canton));
-	}
-
-	@RequestMapping(value = "/parish/{parish}", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findByParish(@PathVariable("parish") String parish) {
-		return ResponseEntity.ok(this.locationService.findByParish(parish));
-	}
-
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<String> createLocation(@RequestBody Location location) {
-		return ResponseEntity.ok("Location created successfully");
-	}
-
-	@RequestMapping(value = "/code/{code}", method = RequestMethod.PUT)
-	public ResponseEntity<String> updateLocation(@PathVariable("code") String code, @RequestBody Location location) {
-		this.locationService.updateLocation(code, location);
-		return ResponseEntity.ok("Location updated successfully");
-	}
-
-	@RequestMapping(value = "/code/{code}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteLocation(@PathVariable("code") String code, @RequestBody Location location) {
-		this.locationService.deleteLocation(code, location);
-		return ResponseEntity.ok("Location deleted successfully");
-	}
 }

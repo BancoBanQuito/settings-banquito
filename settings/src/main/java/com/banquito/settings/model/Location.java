@@ -19,7 +19,7 @@ public class Location {
 	private String codigoTelefonico;
 	private List<Provincia> provincias;
 	@Version
-	private Long version;
+	private Integer version;
 
 	@Data
 	@Builder

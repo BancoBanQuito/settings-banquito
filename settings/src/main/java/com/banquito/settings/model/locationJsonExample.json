@@ -1,111 +1,85 @@
 {
-  "pais": "Ecuador",
-  "codigo_telefonico": "+593",
+  "nombrePais": "Ecuador",
+  "codigoTelefonico": "+593",
   "provincias": [
     {
-      "nombre": "Pichincha",
+      "nombreProvincia": "Pichincha",
       "cantones": [
         {
-          "nombre": "quito",
+          "nombreCanton": "quito",
           "parroquias": [
             {
-              "nombre": "carcelen",
-              "codigo postal": "170101"
+              "nombreParroquia": "carcelen",
+              "codigoPostal": "170101"
             },
             {
-              "nombre": "centro norte",
-              "codigo postal": "170102"
+              "nombreParroquia": "centro norte",
+              "codigoPostal": "170102"
             },
             {
-              "nombre": "chillogallo",
-              "codigo postal": "170103"
+              "nombreParroquia": "chillogallo",
+              "codigoPostal": "170103"
             },
             {
-              "nombre": "el batan",
-              "codigo postal": "170104"
+              "nombreParroquia": "el batan",
+              "codigoPostal": "170104"
             }
           ]
         },
         {
-          "nombre": "cayambe",
+          "nombreCanton": "cayambe",
           "parroquias": [
             {
-              "nombre": "cayambe",
-              "codigo postal": "170201"
+              "nombreParroquia": "cayambe",
+              "codigoPostal": "170201"
             },
             {
-              "nombre": "pifo",
-              "codigo postal": "170202"
+              "nombreParroquia": "pifo",
+              "codigoPostal": "170202"
             },
             {
-              "nombre": "mejia",
-              "codigo postal": "170203"
+              "nombreParroquia": "mejia",
+              "codigoPostal": "170203"
             },
             {
-              "nombre": "pedro vicente maldonado",
-              "codigo postal": "170204"
+              "nombreParroquia": "pedro vicente maldonado",
+              "codigoPostal": "170204"
             }
           ]
         },
         {
-          "nombre": "mejia",
+          "nombreCanton": "mejia",
           "parroquias": [
             {
-              "nombre": "mejia",
-              "codigo postal": "170301"
+              "nombreParroquia": "mejia",
+              "codigoPostal": "170301"
             },
             {
-              "nombre": "pedro vicente maldonado",
-              "codigo postal": "170302"
+              "nombreParroquia": "pedro vicente maldonado",
+              "codigoPostal": "170302"
             }
           ]
         },
         {
-          "nombre": "pedro vicente maldonado",
+          "nombreCanton": "pedro vicente maldonado",
           "parroquias": [
             {
-              "nombre": "pedro vicente maldonado",
-              "codigo postal": "170401"
+              "nombreParroquia": "pedro vicente maldonado",
+              "codigoPostal": "170401"
             }
           ]
         },
         {
-          "nombre": "ruminahui",
-          "parroquias": [
+          "nombreCanton": "ruminahui",
+          "nombreParroquia": [
             {
               "nombre": "ruminahui",
-              "codigo postal": "170501"
-            }
-          ]
-        },
-        {
-          "nombre": "san miguel de los bancos",
-          "parroquias": [
-            {
-              "nombre": "san miguel de los bancos",
-              "codigo postal": "170601"
-            }
-          ]
-        },
-        {
-          "nombre": "pedro moncayo",
-          "parroquias": [
-            {
-              "nombre": "pedro moncayo",
-              "codigo postal": "170701"
-            }
-          ]
-        },
-        {
-          "nombre": "bolivar",
-          "parroquias": [
-            {
-              "nombre": "bolivar",
-              "codigo postal": "170801"
+              "codigoPostal": "170501"
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "version": "1.0.0"
 }
