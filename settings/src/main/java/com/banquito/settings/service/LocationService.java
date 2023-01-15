@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.settings.model.Location;
+import com.banquito.settings.model.Location.Provincia;
 import com.banquito.settings.repository.LocationRepository;
 
 @Service
@@ -113,17 +115,12 @@ public class LocationService {
 		return parroquiaMatched;
 	}
 
-	/*
-	 * public Location addProvince(String id, Provincia province) {
-	 * Location location = locationRepository.findById(id).orElse(null);
-	 * if (location != null) {
-	 * location.getProvincias().add(province);
-	 * locationRepository.save(location);
-	 * return location;
-	 * }
-	 * return null;
-	 * }
-	 */
+	@Transactional
+	public void createProvincia(String id, Location.Provincia provincia) {
+		Location location = locationRepository.findById(id).get();
+		location.getProvincias().add(provincia);
+		this.locationRepository.save(location);
+	}
 
 	public Location findById(String id) {
 		Optional<Location> locationOpt = locationRepository.findById(id);

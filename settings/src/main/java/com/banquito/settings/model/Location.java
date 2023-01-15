@@ -18,6 +18,7 @@ public class Location {
 	private String nombrePais;
 	private String codigoTelefonico;
 	private List<Provincia> provincias;
+
 	@Version
 	private Integer version;
 
@@ -41,4 +42,5 @@ public class Location {
 		private String nombreParroquia;
 		private String codigoPostal;
 	}
+
 }

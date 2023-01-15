@@ -1,6 +1,8 @@
 package com.banquito.settings.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banquito.settings.controller.dto.LocationRQ;
+import com.banquito.settings.controller.dto.LocationRS;
+import com.banquito.settings.controller.mapper.LocationMapper;
 import com.banquito.settings.model.Location;
 import com.banquito.settings.service.LocationService;
 
@@ -53,17 +58,29 @@ public class LocationController {
 		return ResponseEntity.ok(this.locationService.findParroquiasByNombreParroquia(nombreParroquia));
 	}
 
-	/*
-	 * @RequestMapping(value = "/provincia", method = RequestMethod.POST)
-	 * public ResponseEntity<Location> createProvincia(@RequestBody Location
-	 * location) {
-	 * return ResponseEntity.ok(this.locationService.save(location));
-	 * }
-	 */
+	@RequestMapping(value = "/provincia", method = RequestMethod.PUT)
+	public Object createProvince(@RequestBody Map<String, String> requestBody) {
+		try {
+			Location.Provincia provincia = Location.Provincia.builder()
+					.nombreProvincia(requestBody.get("nombreProvincia"))
+					.build();
+			this.locationService.createProvincia("63c424969696e95c3534f89b", provincia);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<List<Location>> findAll() {
-		return ResponseEntity.ok(this.locationService.findAll());
+	public Object findAll() {
+		Iterable<Location> locations = this.locationService.findAll();
+		List<LocationRS> locationsRS = new ArrayList<>();
+		for (Location location : locations)
+			locationsRS.add(LocationMapper.toLocationRS(location));
+		if (locationsRS.isEmpty())
+			return ResponseEntity.notFound().build();
+		else
+			return ResponseEntity.ok(locationsRS);
 	}
 
 }
