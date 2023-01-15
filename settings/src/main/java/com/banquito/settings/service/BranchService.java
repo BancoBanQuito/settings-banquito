@@ -27,7 +27,12 @@ public class BranchService {
 
     @Transactional
     public void createBranch(Branch branch) {
-        createOrUpdateBranch(branch);
+        Boolean branchNameExists = this.branchRepository.existsByName(branch.getName());
+        Boolean branchAddressExists = this.branchRepository.existsByAddress(branch.getAddress());
+        if (branchNameExists || branchAddressExists)
+            throw new RuntimeException("There is already a branch named like this or in that location");
+        else
+            checkBranchHasNameAgency(branch);
     }
 
     @Transactional
@@ -39,7 +44,7 @@ public class BranchService {
             branchToUpdate.setPhoneNumber(branch.getPhoneNumber());
             branchToUpdate.setAddress(branch.getAddress());
             branchToUpdate.setBranchOfficeHours(branch.getBranchOfficeHours());
-            createOrUpdateBranch(branchToUpdate);
+            checkBranchHasNameAgency(branchToUpdate);
         }
         else {
             throw new RuntimeException("The branch was not found");
@@ -55,17 +60,11 @@ public class BranchService {
             throw new RuntimeException("The branch was not found");
     }
 
-    private void createOrUpdateBranch(Branch branch) {
-        Boolean branchNameExists = this.branchRepository.existsByName(branch.getName());
-        Boolean branchAddressExists = this.branchRepository.existsByAddress(branch.getAddress());
-        if (branchNameExists || branchAddressExists)
-            throw new RuntimeException("There is already a branch named like this or in that location");
+    private void checkBranchHasNameAgency(Branch branch) {
+        if (branch.getName().toLowerCase().contains("agencia"))
+            this.branchRepository.save(branch);
         else
-            if (branch.getName().contains("Agencia"))
-                this.branchRepository.save(branch);
-            else
-                branch.setName("Agencia " + branch.getName());
-                this.branchRepository.save(branch);
+            branch.setName("Agencia " + branch.getName());
+            this.branchRepository.save(branch);
     }
-    
 }

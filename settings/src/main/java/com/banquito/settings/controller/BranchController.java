@@ -71,12 +71,12 @@ public class BranchController {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
-    public Object deleteBranch(@PathVariable("id") String id, @RequestBody Branch branch) {
+    public Object deleteBranch(@PathVariable("id") String id) {
         try {
             this.branchService.deleteBranch(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 }
