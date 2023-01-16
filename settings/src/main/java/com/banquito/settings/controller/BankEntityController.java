@@ -19,9 +19,16 @@ public class BankEntityController {
 		this.bankEntityService = bankEntityService;
 	}
 
-	@RequestMapping(value = "all", method = RequestMethod.GET)
-	public Object findAll() {
-		return ResponseEntity.ok(this.bankEntityService.findAll());
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public Object findAllBankEntity() {
+		Iterable<BankEntity> bankEntity = this.bankEntityService.findAll();
+		return ResponseEntity.ok(bankEntity);
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public ResponseEntity<String> createBankEntity(@RequestBody BankEntity bankEntity) {
+		this.bankEntityService.saveBankEntity(bankEntity);
+		return ResponseEntity.ok("Bank's Information created successfully");
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.PUT)
