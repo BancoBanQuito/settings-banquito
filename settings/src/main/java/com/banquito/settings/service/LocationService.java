@@ -1,8 +1,10 @@
 package com.banquito.settings.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -115,16 +117,13 @@ public class LocationService {
 		return parroquiaMatched;
 	}
 
-	public Object getProvinciaCantonParroquia(String nombreProvincia, String nombreCanton, String nombreParroquia) {
-		String provincia = findProvinciasByNombreProvincia(nombreProvincia).getNombreProvincia();
-		String canton = findCantonesByNombreCanton(nombreCanton).getNombreCanton();
-		String parroquia = findParroquiasByNombreParroquia(nombreParroquia).getNombreParroquia();
-		return new Object() {
-			public final String nombreProvincia = provincia;
-			public final String nombreCanton = canton;
-			public final String nombreParroquia = parroquia;
-		};
-
+	public Map<String, Object> getProvinciaCantonParroquia(String nombreProvincia, String nombreCanton,
+			String nombreParroquia) {
+		Map<String, Object> response = new HashMap<>();
+		response.put("nombreProvincia", findProvinciasByNombreProvincia(nombreProvincia).getNombreProvincia());
+		response.put("nombreCanton", findCantonesByNombreCanton(nombreCanton).getNombreCanton());
+		response.put("nombreParroquia", findParroquiasByNombreParroquia(nombreParroquia).getNombreParroquia());
+		return response;
 	}
 
 	@Transactional

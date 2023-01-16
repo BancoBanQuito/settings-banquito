@@ -13,9 +13,9 @@ public class LocationMapper {
 
 	public static LocationRS toLocationRS(Location location) {
 		return LocationRS.builder()
-				.provincias(location.getProvincias())
 				.nombrePais(location.getNombrePais())
-				.codigoTelefonico(location.getCodigoTelefonico()).build();
-
+				.codigoTelefonico(location.getCodigoTelefonico())
+				.provincias(location.getProvincias())
+				.build();
 	}
 }
