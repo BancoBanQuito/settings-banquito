@@ -26,8 +26,9 @@ public class BankEntityService {
 
 	@Transactional
 	public void updateBankEntity(BankEntity bankEntity) {
-		bankEntity.setInternationalBankCode(bankEntity.getInternationalBankCode());
-		bankEntity.setName(bankEntity.getName());
-		this.bankEntityRepository.save(bankEntity);
+		BankEntity bankEntities = this.bankEntityRepository.findAll().iterator().next();
+		bankEntities.setInternationalBankCode(bankEntity.getInternationalBankCode());
+		bankEntities.setName(bankEntity.getName());
+		this.bankEntityRepository.save(bankEntities);
 	}
 }
