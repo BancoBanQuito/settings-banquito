@@ -115,6 +115,18 @@ public class LocationService {
 		return parroquiaMatched;
 	}
 
+	public Object getProvinciaCantonParroquia(String nombreProvincia, String nombreCanton, String nombreParroquia) {
+		String provincia = findProvinciasByNombreProvincia(nombreProvincia).getNombreProvincia();
+		String canton = findCantonesByNombreCanton(nombreCanton).getNombreCanton();
+		String parroquia = findParroquiasByNombreParroquia(nombreParroquia).getNombreParroquia();
+		return new Object() {
+			public final String nombreProvincia = provincia;
+			public final String nombreCanton = canton;
+			public final String nombreParroquia = parroquia;
+		};
+
+	}
+
 	@Transactional
 	public void createProvincia(String id, Location.Provincia provincia) {
 		Location location = locationRepository.findById(id).get();

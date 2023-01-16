@@ -16,6 +16,8 @@ public interface LocationRepository extends CrudRepository<Location, String> {
 
 	Boolean existsByProvinciasNombreProvincia(String nombreProvincia);
 
+	List<Location> findAll();
+
 	void save(List<Location.Provincia> provincia);
 
 }

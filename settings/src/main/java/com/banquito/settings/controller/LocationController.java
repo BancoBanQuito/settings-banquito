@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,6 +56,16 @@ public class LocationController {
 	@RequestMapping(value = "/parroquia/{nombreParroquia}", method = RequestMethod.GET)
 	public ResponseEntity<Location.Parroquia> findByParroquia(@PathVariable String nombreParroquia) {
 		return ResponseEntity.ok(this.locationService.findParroquiasByNombreParroquia(nombreParroquia));
+	}
+
+	@RequestMapping(value = "/provincia/{provincia}/canton/{canton}/parroquia/{parroquia}", method = RequestMethod.GET)
+	public Object getProvinceCantonParroquia(@PathVariable("provincia") String provincia,
+			@PathVariable("canton") String canton, @PathVariable("parroquia") String parroquia) {
+		try {
+			return locationService.getProvinciaCantonParroquia(provincia, canton, parroquia);
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
 	}
 
 	@RequestMapping(value = "/provincia", method = RequestMethod.POST)
