@@ -3,8 +3,6 @@ package com.banquito.settings.controller.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.banquito.settings.model.Location.Provincia;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +10,6 @@ import lombok.Data;
 @Builder
 public class LocationRQ implements Serializable {
 
-	private List<Provincia> provincias;
+	private List<com.banquito.settings.model.Provincia> provincias;
 
 }

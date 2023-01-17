@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.banquito.settings.model.Location;
+import com.banquito.settings.model.Provincia;
 
 public interface LocationRepository extends CrudRepository<Location, String> {
 
@@ -18,6 +19,6 @@ public interface LocationRepository extends CrudRepository<Location, String> {
 
 	List<Location> findAll();
 
-	void save(List<Location.Provincia> provincia);
+	void save(List<Provincia> provincia);
 
 }

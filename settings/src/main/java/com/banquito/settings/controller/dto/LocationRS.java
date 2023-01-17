@@ -3,7 +3,7 @@ package com.banquito.settings.controller.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.banquito.settings.model.Location.Provincia;
+import com.banquito.settings.model.Provincia;
 
 import lombok.Builder;
 import lombok.Data;

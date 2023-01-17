@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.banquito.settings.controller.dto.LocationRS;
 import com.banquito.settings.controller.mapper.LocationMapper;
+import com.banquito.settings.model.Canton;
 import com.banquito.settings.model.Location;
+import com.banquito.settings.model.Parroquia;
+import com.banquito.settings.model.Provincia;
 import com.banquito.settings.service.LocationService;
 
 @RestController
@@ -27,33 +30,33 @@ public class LocationController {
 	}
 
 	@RequestMapping(value = "/provincias", method = RequestMethod.GET)
-	public ResponseEntity<List<Location.Provincia>> findAllProvincias() {
+	public ResponseEntity<List<Provincia>> findAllProvincias() {
 		return ResponseEntity.ok(this.locationService.findAllProvincias());
 	}
 
 	@RequestMapping(value = "/cantones", method = RequestMethod.GET)
-	public ResponseEntity<List<Location.Canton>> findAllCantones() {
+	public ResponseEntity<List<Canton>> findAllCantones() {
 		return ResponseEntity.ok(this.locationService.findAllCantones());
 	}
 
 	@RequestMapping(value = "/parroquias", method = RequestMethod.GET)
-	public ResponseEntity<List<Location.Parroquia>> findAllParroquias() {
+	public ResponseEntity<List<Parroquia>> findAllParroquias() {
 		return ResponseEntity.ok(this.locationService.findAllParroquias());
 	}
 
 	@RequestMapping(value = "/provincia/{nombreProvincia}", method = RequestMethod.GET)
-	public ResponseEntity<Location.Provincia> findByProvincia(@PathVariable String nombreProvincia) {
+	public ResponseEntity<Provincia> findByProvincia(@PathVariable String nombreProvincia) {
 		return ResponseEntity.ok(this.locationService.findProvinciasByNombreProvincia(nombreProvincia));
 
 	}
 
 	@RequestMapping(value = "/canton/{nombreCanton}", method = RequestMethod.GET)
-	public ResponseEntity<Location.Canton> findByCanton(@PathVariable String nombreCanton) {
+	public ResponseEntity<Canton> findByCanton(@PathVariable String nombreCanton) {
 		return ResponseEntity.ok(this.locationService.findCantonesByNombreCanton(nombreCanton));
 	}
 
 	@RequestMapping(value = "/parroquia/{nombreParroquia}", method = RequestMethod.GET)
-	public ResponseEntity<Location.Parroquia> findByParroquia(@PathVariable String nombreParroquia) {
+	public ResponseEntity<Parroquia> findByParroquia(@PathVariable String nombreParroquia) {
 		return ResponseEntity.ok(this.locationService.findParroquiasByNombreParroquia(nombreParroquia));
 	}
 
@@ -70,7 +73,7 @@ public class LocationController {
 	@RequestMapping(value = "/provincia", method = RequestMethod.POST)
 	public Object createProvince(@RequestBody Map<String, String> requestBody) {
 		try {
-			Location.Provincia provincia = Location.Provincia.builder()
+			Provincia provincia = Provincia.builder()
 					.nombreProvincia(requestBody.get("nombreProvincia"))
 					.build();
 			this.locationService.createProvincia("63c424969696e95c3534f89b", provincia);
@@ -85,7 +88,7 @@ public class LocationController {
 		try {
 			String provinceName = requestBody.get("nombreProvincia");
 			String cantonName = requestBody.get("nombreCanton");
-			Location.Canton canton = Location.Canton.builder()
+			Canton canton = Canton.builder()
 					.nombreCanton(cantonName)
 					.build();
 			this.locationService.createCanton(provinceName, canton);
@@ -102,7 +105,7 @@ public class LocationController {
 			String cantonName = requestBody.get("nombreCanton");
 			String parroquiaName = requestBody.get("nombreParroquia");
 			String codigoPostal = requestBody.get("codigoPostal");
-			Location.Parroquia parroquia = Location.Parroquia.builder()
+			Parroquia parroquia = Parroquia.builder()
 					.nombreParroquia(parroquiaName)
 					.codigoPostal(codigoPostal)
 					.build();
@@ -142,7 +145,7 @@ public class LocationController {
 		try {
 			String nombre = requestBody.get("nombreParroquia");
 			String codigoPostal = requestBody.get("codigoPostal");
-			Location.Parroquia parroquia = Location.Parroquia.builder()
+			Parroquia parroquia = Parroquia.builder()
 					.nombreParroquia(nombre)
 					.codigoPostal(codigoPostal)
 					.build();

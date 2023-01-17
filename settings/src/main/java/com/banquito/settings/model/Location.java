@@ -21,26 +21,4 @@ public class Location {
 
 	@Version
 	private Integer version;
-
-	@Data
-	@Builder
-	public static class Provincia {
-		private String nombreProvincia;
-		private List<Canton> cantones;
-	}
-
-	@Data
-	@Builder
-	public static class Canton {
-		private String nombreCanton;
-		private List<Parroquia> parroquias;
-	}
-
-	@Data
-	@Builder
-	public static class Parroquia {
-		private String nombreParroquia;
-		private String codigoPostal;
-	}
-
 }
