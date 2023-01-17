@@ -2,22 +2,23 @@ package com.banquito.settings.repository;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.banquito.settings.model.Location;
+import com.banquito.settings.model.Province;
 
-@Repository
-public interface LocationRepository extends MongoRepository<Location, String> {
+public interface LocationRepository extends CrudRepository<Location, String> {
 
-	List<Location> findByCountry(String country);
+	Location findByProvincesProvinceName(String provinceName);
 
-	List<Location> findByProvince(String province);
+	Location findByProvincesCantonsCantonName(String cantonName);
 
-	List<Location> findByCanton(String canton);
+	Location findByProvincesCantonsParishesParishName(String parishName);
 
-	List<Location> findByParish(String parish);
+	Boolean existsByProvincesProvinceName(String provinceName);
 
-	List<Location> findByCountryAndProvinceAndCantonAndParish(String country, String province, String canton,String parish);
+	List<Location> findAll();
+
+	void save(List<Province> provinces);
 
 }
