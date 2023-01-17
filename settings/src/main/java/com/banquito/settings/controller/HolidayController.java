@@ -54,7 +54,7 @@ public class HolidayController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Object createHoliday(@RequestBody HolidayRQ holidayRQ) {
         try {
-            this.holidayService.createHoliday(HolidayMapper.toHolidayRQ(holidayRQ));
+            this.holidayService.createHoliday(HolidayMapper.toHoliday(holidayRQ));
             return ResponseEntity.ok("Holiday created successfully");
 
         } catch (Exception e) {

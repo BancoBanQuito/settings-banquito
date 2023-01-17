@@ -6,7 +6,7 @@ import com.banquito.settings.model.Holiday;
 
 public class HolidayMapper {
 
-    public static Holiday toHolidayRQ(HolidayRQ rq){
+    public static Holiday toHoliday(HolidayRQ rq){
         return Holiday.builder().date(rq.getDate()).name(rq.getName()).type(rq.getType()).build();
     }
     
