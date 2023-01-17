@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Parroquia {
-	private String nombreParroquia;
-	private String codigoPostal;
+public class Parish {
+	private String parishName;
+	private String zipCode;
 }

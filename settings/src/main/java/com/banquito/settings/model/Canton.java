@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 @Builder
 public class Canton {
-	private String nombreCanton;
-	private List<Parroquia> parroquias;
+	private String cantonName;
+	private List<Parish> parishes;
 }

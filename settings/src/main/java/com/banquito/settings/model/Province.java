@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Provincia {
-	private String nombreProvincia;
-	private List<Canton> cantones;
+public class Province {
+	private String provinceName;
+	private List<Canton> cantons;
 }

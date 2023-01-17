@@ -5,20 +5,20 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.banquito.settings.model.Location;
-import com.banquito.settings.model.Provincia;
+import com.banquito.settings.model.Province;
 
 public interface LocationRepository extends CrudRepository<Location, String> {
 
-	Location findByProvinciasNombreProvincia(String nombreProvincia);
+	Location findByProvincesProvinceName(String provinceName);
 
-	Location findByProvinciasCantonesNombreCanton(String nombreCanton);
+	Location findByProvincesCantonsCantonName(String cantonName);
 
-	Location findByProvinciasCantonesParroquiasNombreParroquia(String nombreParroquia);
+	Location findByProvincesCantonsParishesParishName(String parishName);
 
-	Boolean existsByProvinciasNombreProvincia(String nombreProvincia);
+	Boolean existsByProvincesProvinceName(String provinceName);
 
 	List<Location> findAll();
 
-	void save(List<Provincia> provincia);
+	void save(List<Province> provinces);
 
 }

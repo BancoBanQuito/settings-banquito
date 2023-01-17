@@ -8,14 +8,14 @@ public class LocationMapper {
 
 	public static Location toLocation(LocationRQ rq) {
 		return Location.builder()
-				.provincias(rq.getProvincias()).build();
+				.provinces(rq.getProvinces()).build();
 	}
 
 	public static LocationRS toLocationRS(Location location) {
 		return LocationRS.builder()
-				.nombrePais(location.getNombrePais())
-				.codigoTelefonico(location.getCodigoTelefonico())
-				.provincias(location.getProvincias())
+				.countryName(location.getCountryName())
+				.countryPhoneCode(location.getCountryPhoneCode())
+				.provinces(location.getProvinces())
 				.build();
 	}
 }

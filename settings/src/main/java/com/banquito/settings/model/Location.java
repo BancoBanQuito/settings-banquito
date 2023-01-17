@@ -15,9 +15,9 @@ import org.springframework.data.annotation.Version;
 public class Location {
 	@Id
 	private String id;
-	private String nombrePais;
-	private String codigoTelefonico;
-	private List<Provincia> provincias;
+	private String countryName;
+	private String countryPhoneCode;
+	private List<Province> provinces;
 
 	@Version
 	private Integer version;

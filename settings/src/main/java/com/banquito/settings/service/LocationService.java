@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.settings.model.Canton;
 import com.banquito.settings.model.Location;
-import com.banquito.settings.model.Parroquia;
-import com.banquito.settings.model.Provincia;
+import com.banquito.settings.model.Parish;
+import com.banquito.settings.model.Province;
 import com.banquito.settings.repository.LocationRepository;
 
 @Service
@@ -29,125 +29,126 @@ public class LocationService {
 		return (List<Location>) locationRepository.findAll();
 	}
 
-	public List<Provincia> findAllProvincias() {
+	public List<Province> findAllProvinces() {
 		List<Location> locations = (List<Location>) locationRepository.findAll();
-		List<Provincia> provincias = new ArrayList<Provincia>();
+		List<Province> parishes = new ArrayList<Province>();
 		for (Location location : locations) {
-			for (Provincia provincia : location.getProvincias()) {
-				provincias.add(provincia);
+			for (Province province : location.getProvinces()) {
+				parishes.add(province);
 			}
 		}
-		return provincias;
+		return parishes;
 	}
 
-	public List<Canton> findAllCantones() {
+	public List<Canton> findAllCantons() {
 		List<Location> locations = (List<Location>) locationRepository.findAll();
-		List<Canton> cantones = new ArrayList<Canton>();
+		List<Canton> cantons = new ArrayList<Canton>();
 		for (Location location : locations) {
-			for (Provincia provincia : location.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					cantones.add(canton);
+			for (Province province : location.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					cantons.add(canton);
 				}
 			}
 		}
-		return cantones;
+		return cantons;
 	}
 
-	public List<Parroquia> findAllParroquias() {
+	public List<Parish> findAllParishes() {
 		List<Location> locations = (List<Location>) locationRepository.findAll();
-		List<Parroquia> parroquias = new ArrayList<Parroquia>();
+		List<Parish> parishes = new ArrayList<Parish>();
 		for (Location location : locations) {
-			for (Provincia provincia : location.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					for (Parroquia parroquia : canton.getParroquias()) {
-						parroquias.add(parroquia);
+			for (Province province : location.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					for (Parish parish : canton.getParishes()) {
+						parishes.add(parish);
 					}
 				}
 			}
 		}
-		return parroquias;
+		return parishes;
 	}
 
-	public Provincia findProvinciasByNombreProvincia(String nombreProvincia) {
-		Location location = locationRepository.findByProvinciasNombreProvincia(nombreProvincia);
-		List<Provincia> provincias = location.getProvincias();
-		Provincia provinciaMatched = null;
-		for (Provincia provincia : provincias) {
-			if (provincia.getNombreProvincia().equals(nombreProvincia)) {
-				provinciaMatched = provincia;
+	public Province findProvincesByProvinceName(String provinceName) {
+		Location location = locationRepository.findByProvincesProvinceName(provinceName);
+		List<Province> parishes = location.getProvinces();
+		Province provinceMatched = null;
+		for (Province province : parishes) {
+			if (province.getProvinceName().equals(provinceName)) {
+				provinceMatched = province;
 			}
 		}
-		return provinciaMatched;
+		return provinceMatched;
 	}
 
-	public Canton findCantonesByNombreCanton(String nombreCanton) {
+	public Canton findCantonsByCantonName(String cantonName) {
 		List<Location> locations = (List<Location>) locationRepository.findAll();
-		List<Canton> cantones = new ArrayList<Canton>();
+		List<Canton> cantons = new ArrayList<Canton>();
 		for (Location location : locations) {
-			for (Provincia provincia : location.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					cantones.add(canton);
+			for (Province province : location.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					cantons.add(canton);
 				}
 			}
 		}
 		Canton cantonMatched = null;
-		for (Canton canton : cantones) {
-			if (canton.getNombreCanton().equals(nombreCanton)) {
+		for (Canton canton : cantons) {
+			if (canton.getCantonName().equals(cantonName)) {
 				cantonMatched = canton;
 			}
 		}
 		return cantonMatched;
 	}
 
-	public Parroquia findParroquiasByNombreParroquia(String nombreParroquia) {
+	public Parish findParishesByParishName(String parishName) {
 		List<Location> locations = (List<Location>) locationRepository.findAll();
-		List<Parroquia> parroquias = new ArrayList<Parroquia>();
+		List<Parish> Parishes = new ArrayList<Parish>();
 		for (Location location : locations) {
-			for (Provincia provincia : location.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					for (Parroquia parroquia : canton.getParroquias()) {
-						parroquias.add(parroquia);
+			for (Province province : location.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					for (Parish parish : canton.getParishes()) {
+						Parishes.add(parish);
 					}
 				}
 			}
 		}
-		Parroquia parroquiaMatched = null;
-		for (Parroquia parroquia : parroquias) {
-			if (parroquia.getNombreParroquia().equals(nombreParroquia)) {
-				parroquiaMatched = parroquia;
+		Parish parishMatched = null;
+		for (Parish parish : Parishes) {
+			if (parish.getParishName().equals(parishName)) {
+				parishMatched = parish;
 			}
 		}
-		return parroquiaMatched;
+		return parishMatched;
 	}
 
-	public Map<String, Object> getProvinciaCantonParroquia(String nombreProvincia, String nombreCanton,
-			String nombreParroquia) {
+	public Map<String, Object> getProvinceCantonParish(String provinceName, String cantonName,
+			String parishName) {
 		Map<String, Object> response = new HashMap<>();
-		response.put("nombreProvincia", findProvinciasByNombreProvincia(nombreProvincia).getNombreProvincia());
-		response.put("nombreCanton", findCantonesByNombreCanton(nombreCanton).getNombreCanton());
-		response.put("nombreParroquia", findParroquiasByNombreParroquia(nombreParroquia).getNombreParroquia());
+		response.put("provinceName", findProvincesByProvinceName(provinceName).getProvinceName());
+		response.put("cantonName", findCantonsByCantonName(cantonName).getCantonName());
+		response.put("parishName", findParishesByParishName(parishName).getParishName());
 		return response;
 	}
 
 	@Transactional
-	public void createProvincia(String id, Provincia provincia) {
+	public void createProvince(String id, Province province) {
 		Location location = locationRepository.findById(id).get();
-		location.getProvincias().add(provincia);
+		province.setCantons(new ArrayList<>());
+		location.getProvinces().add(province);
 		this.locationRepository.save(location);
 	}
 
 	@Transactional
 	public void createCanton(String provinceName, Canton canton) {
 		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").get();
-		Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-				.filter(provincia -> provincia.getNombreProvincia() != null
-						&& provincia.getNombreProvincia().equals(provinceName))
+		Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+				.filter(province -> province.getProvinceName() != null
+						&& province.getProvinceName().equals(provinceName))
 				.findFirst();
 		if (existingProvince.isPresent()) {
-			if (existingProvince.get().getCantones() == null) {
-				existingProvince.get().setCantones(new ArrayList<>());
+			if (existingProvince.get().getCantons() == null) {
+				existingProvince.get().setCantons(new ArrayList<>());
 			}
-			existingProvince.get().getCantones().add(canton);
+			existingProvince.get().getCantons().add(canton);
 			locationRepository.save(existingLocation);
 		} else {
 			throw new RuntimeException("Province not found");
@@ -155,22 +156,22 @@ public class LocationService {
 	}
 
 	@Transactional
-	public void createParroquia(String provinceName, String cantonName, Parroquia parroquia) {
+	public void createParish(String provinceName, String cantonName, Parish parish) {
 		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").get();
-		Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-				.filter(provincia -> provincia.getNombreProvincia() != null
-						&& provincia.getNombreProvincia().equals(provinceName))
+		Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+				.filter(province -> province.getProvinceName() != null
+						&& province.getProvinceName().equals(provinceName))
 				.findFirst();
 		if (existingProvince.isPresent()) {
-			Optional<Canton> existingCanton = existingProvince.get().getCantones().stream()
-					.filter(canton -> canton.getNombreCanton() != null
-							&& canton.getNombreCanton().equals(cantonName))
+			Optional<Canton> existingCanton = existingProvince.get().getCantons().stream()
+					.filter(canton -> canton.getCantonName() != null
+							&& canton.getCantonName().equals(cantonName))
 					.findFirst();
 			if (existingCanton.isPresent()) {
-				if (existingCanton.get().getParroquias() == null) {
-					existingCanton.get().setParroquias(new ArrayList<>());
+				if (existingCanton.get().getParishes() == null) {
+					existingCanton.get().setParishes(new ArrayList<>());
 				}
-				existingCanton.get().getParroquias().add(parroquia);
+				existingCanton.get().getParishes().add(parish);
 				locationRepository.save(existingLocation);
 			} else {
 				throw new RuntimeException("Canton not found");
@@ -181,50 +182,50 @@ public class LocationService {
 	}
 
 	@Transactional
-	public void updateProvincia(String id, String nombreProvincia, String newNombreProvincia) {
+	public void updateProvince(String id, String provinceName, String newProvinceName) {
 		Location existingLocation = this.locationRepository.findById(id).orElse(null);
 		if (existingLocation != null) {
 
-			Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-					.filter(provincia -> provincia.getNombreProvincia() != null
-							&& provincia.getNombreProvincia().equals(nombreProvincia))
+			Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+					.filter(province -> province.getProvinceName() != null
+							&& province.getProvinceName().equals(provinceName))
 					.findFirst();
 
 			if (existingProvince.isPresent()) {
-				existingProvince.get().setNombreProvincia(newNombreProvincia);
+				existingProvince.get().setProvinceName(newProvinceName);
 				this.locationRepository.save(existingLocation);
 			}
 		}
 	}
 
 	@Transactional
-	public void updateCanton(String nombreCanton, String newNombreCanton) {
+	public void updateCanton(String cantonName, String newCantonName) {
 		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").orElseThrow();
-		Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-				.filter(province -> province.getCantones().stream()
-						.anyMatch(canton -> canton.getNombreCanton().equals(nombreCanton)))
+		Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+				.filter(province -> province.getCantons().stream()
+						.anyMatch(canton -> canton.getCantonName().equals(cantonName)))
 				.findFirst();
 		if (existingProvince.isPresent()) {
-			existingProvince.get().getCantones().stream()
-					.filter(canton -> canton.getNombreCanton().equals(nombreCanton))
+			existingProvince.get().getCantons().stream()
+					.filter(canton -> canton.getCantonName().equals(cantonName))
 					.findFirst()
-					.ifPresent(canton -> canton.setNombreCanton(newNombreCanton));
+					.ifPresent(canton -> canton.setCantonName(newCantonName));
 		}
 		locationRepository.save(existingLocation);
 	}
 
-	public Location updateParroquia(String id, String parroquiaName, Parroquia parroquia) {
+	public Location updateParish(String id, String parishName, Parish parish) {
 		Optional<Location> locationOptional = locationRepository.findById(id);
 		if (locationOptional.isPresent()) {
 			Location existingLocation = locationOptional.get();
-			for (Provincia provincia : existingLocation.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					for (Iterator<Parroquia> iterator = canton.getParroquias().iterator(); iterator
+			for (Province province : existingLocation.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					for (Iterator<Parish> iterator = canton.getParishes().iterator(); iterator
 							.hasNext();) {
-						Parroquia existingParroquia = iterator.next();
-						if (existingParroquia.getNombreParroquia().equals(parroquiaName)) {
-							existingParroquia.setNombreParroquia(parroquia.getNombreParroquia());
-							existingParroquia.setCodigoPostal(parroquia.getCodigoPostal());
+						Parish existingParish = iterator.next();
+						if (existingParish.getParishName().equals(parishName)) {
+							existingParish.setParishName(parish.getParishName());
+							existingParish.setZipCode(parish.getZipCode());
 							return locationRepository.save(existingLocation);
 						}
 					}
@@ -234,42 +235,42 @@ public class LocationService {
 		return null;
 	}
 
-	public void deleteProvincia(String id, String nombreProvincia) {
+	public void deleteProvince(String id, String provinceName) {
 		Location existingLocation = this.locationRepository.findById(id).orElse(null);
 		if (existingLocation != null) {
-			Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-					.filter(provincia -> provincia.getNombreProvincia() != null
-							&& provincia.getNombreProvincia().equals(nombreProvincia))
+			Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+					.filter(province -> province.getProvinceName() != null
+							&& province.getProvinceName().equals(provinceName))
 					.findFirst();
 			if (existingProvince.isPresent()) {
-				existingLocation.getProvincias().remove(existingProvince.get());
+				existingLocation.getProvinces().remove(existingProvince.get());
 				this.locationRepository.save(existingLocation);
 			}
 		}
 	}
 
-	public void deleteCanton(String nombreCanton) {
+	public void deleteCanton(String cantonName) {
 		Location existingLocation = locationRepository.findById("63c424969696e95c3534f89b").orElseThrow();
-		Optional<Provincia> existingProvince = existingLocation.getProvincias().stream()
-				.filter(province -> province.getCantones().stream()
-						.anyMatch(canton -> canton.getNombreCanton().equals(nombreCanton)))
+		Optional<Province> existingProvince = existingLocation.getProvinces().stream()
+				.filter(province -> province.getCantons().stream()
+						.anyMatch(canton -> canton.getCantonName().equals(cantonName)))
 				.findFirst();
 		if (existingProvince.isPresent()) {
-			existingProvince.get().getCantones().removeIf(canton -> canton.getNombreCanton().equals(nombreCanton));
+			existingProvince.get().getCantons().removeIf(canton -> canton.getCantonName().equals(cantonName));
 		}
 		locationRepository.save(existingLocation);
 	}
 
-	public void deleteParroquia(String id, String parroquiaName) {
+	public void deleteParish(String id, String parishName) {
 		Optional<Location> locationOptional = locationRepository.findById(id);
 		if (locationOptional.isPresent()) {
 			Location existingLocation = locationOptional.get();
-			for (Provincia provincia : existingLocation.getProvincias()) {
-				for (Canton canton : provincia.getCantones()) {
-					for (Iterator<Parroquia> iterator = canton.getParroquias().iterator(); iterator
+			for (Province province : existingLocation.getProvinces()) {
+				for (Canton canton : province.getCantons()) {
+					for (Iterator<Parish> iterator = canton.getParishes().iterator(); iterator
 							.hasNext();) {
-						Parroquia existingParroquia = iterator.next();
-						if (existingParroquia.getNombreParroquia().equals(parroquiaName)) {
+						Parish existingParish = iterator.next();
+						if (existingParish.getParishName().equals(parishName)) {
 							iterator.remove();
 							locationRepository.save(existingLocation);
 						}
