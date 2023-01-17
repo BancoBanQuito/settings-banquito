@@ -2,26 +2,26 @@ package com.banquito.settings.model;
 
 import java.util.Date;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@Document(collection = "holiday")
+@Builder
+@Document(collection = "holidays")
 public class Holiday {
 
     @Id
-    private Date date;
-
-    @Field(value="code_location")
-    private Integer locationCode;
-
-    @Field(value="name")
-    private String name;
+    private String id;
     
-    @Field(value="type")
+    private Date date;
+    private String name;
     private String type;
+
+    @Version
+    private Integer version;
 
 }

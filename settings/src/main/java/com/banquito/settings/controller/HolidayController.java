@@ -1,12 +1,19 @@
 package com.banquito.settings.controller;
 
+import java.util.ArrayList;
+
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.banquito.settings.controller.dto.HolidayRQ;
+import com.banquito.settings.controller.dto.HolidayRS;
+import com.banquito.settings.controller.mapper.HolidayMapper;
 import com.banquito.settings.model.Holiday;
 import com.banquito.settings.service.HolidayService;
 
@@ -16,38 +23,43 @@ public class HolidayController {
 
     private final HolidayService holidayService;
 
-    public HolidayController(HolidayService holidayService){
+    public HolidayController(HolidayService holidayService) {
         this.holidayService = holidayService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Object findAll() {
-        return ResponseEntity.ok(this.holidayService.findAll());
+        Iterable<Holiday> holidays = this.holidayService.findAll();
+        List<HolidayRS> holidaysRS = new ArrayList<>();
+        for (Holiday holiday : holidays)
+            holidaysRS.add(HolidayMapper.toHolidayRS(holiday));
+        if (holidaysRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(holidaysRS);
     }
 
-    @RequestMapping(value = "/{date}", method = RequestMethod.GET)
-    public ResponseEntity<List<Holiday>> getHolidayByDate(@PathVariable("date") String date) {
-        return ResponseEntity.ok(this.holidayService.findByDate(date));
-    }
-
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    public ResponseEntity<List<Holiday>> getHolidayByName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(this.holidayService.findByName(name));
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    public Object findByName(@PathVariable("name") String name) {
+        Iterable<Holiday> holidays = this.holidayService.findByName(name);
+        List<HolidayRS> holidaysRS = new ArrayList<>();
+        for (Holiday holiday : holidays)
+            holidaysRS.add(HolidayMapper.toHolidayRS(holiday));
+        if (holidaysRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(holidaysRS);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<String> createHoliday(@RequestBody Holiday holiday) {
+    public Object createHoliday(@RequestBody HolidayRQ holidayRQ) {
+        try {
+            this.holidayService.createHoliday(HolidayMapper.toHoliday(holidayRQ));
             return ResponseEntity.ok("Holiday created successfully");
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
-    @RequestMapping(value = "/{holiday}", method = RequestMethod.PUT)
-    public Object updateHoliday(@PathVariable("holiday") String date, @RequestBody Holiday holiday) {
-        return ResponseEntity.ok("Holiday updated successfully");
-    }
-
-    @RequestMapping(value = "/{date}", method = RequestMethod.DELETE)
-    public Object deleteHoliday(@PathVariable("date") String date, @RequestBody Holiday holiday) {
-        return ResponseEntity.ok("Holiday deleted successfully");
-    }
-    
 }
