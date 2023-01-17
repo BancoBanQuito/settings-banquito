@@ -1,8 +1,18 @@
 package com.banquito.settings.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.banquito.settings.controller.dto.HolidayRQ;
+import com.banquito.settings.controller.mapper.HolidayMapper;
 import com.banquito.settings.model.Holiday;
 import com.banquito.settings.repository.HolidayRepository;
 
@@ -10,36 +20,29 @@ import com.banquito.settings.repository.HolidayRepository;
 public class HolidayService {
 
     private final HolidayRepository holidayRepository;
-    
-    public HolidayService(HolidayRepository holidayRepository){
+
+    public HolidayService(HolidayRepository holidayRepository) {
         this.holidayRepository = holidayRepository;
     }
 
-    public List<Holiday> findAll(){
+    public Iterable<Holiday> findAll() {
         return holidayRepository.findAll();
     }
 
-    public List<Holiday> findByName(String name){
+    public List<Holiday> findByName(String name) {
         return holidayRepository.findByName(name);
     }
 
-    public List<Holiday> findByDate(String date){
-        return holidayRepository.findByDate(date);
+    @Transactional
+    public void createHoliday(Holiday holiday) {
+
+        List<Holiday> holidays = this.holidayRepository.findByDate(holiday.getDate());
+        if (holidays.isEmpty()) {
+
+            this.holidayRepository.save(holiday);
+        } else {
+            throw new RuntimeException("The Holiday already exists");
+        }
     }
 
-    @Transactional
-    public void createHoliday(Holiday holiday){
-        this.holidayRepository.save(holiday);
-    }
-
-    @Transactional
-    public void updateHoliday(String date, Holiday holiday){
-        this.holidayRepository.save(holiday);
-    }
-
-    @Transactional
-    public void deleteHoliday(String date, Holiday holiday){
-        this.holidayRepository.delete(holiday);
-    }
-    
 }
