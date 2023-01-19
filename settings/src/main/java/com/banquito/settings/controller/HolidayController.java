@@ -62,6 +62,16 @@ public class HolidayController {
         }
     }
 
+    @RequestMapping(value = "/{year}", method = RequestMethod.POST)
+    public ResponseEntity<String> generateWeekendHoliday(@PathVariable("year") int year) {
+        try {
+            this.holidayService.generateHolidayByYear(year);
+            return ResponseEntity.ok("Weekend Holiday created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     @RequestMapping(value = "", method = RequestMethod.PUT)
 	public Object updateHoliday(@RequestBody HolidayRQ holidayRQ) {
         try {

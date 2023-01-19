@@ -13,15 +13,17 @@ public class HolidayMapper {
 
     public static Holiday toHoliday(HolidayRQ rq) throws ParseException {
         Date date = rq.getDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'00:mm:ss.SSSXXX");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSXXX");
         String dateString = dateFormat.format(date);
         
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'00:mm:ss.SSSXXX");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSXXX");
         Date dateF = dateFormat2.parse(dateString);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateF);
+        
         cal.add(Calendar.DATE, 1);
+        cal.add(Calendar.HOUR, 5);
         Date dateFinal = cal.getTime();
 
         
