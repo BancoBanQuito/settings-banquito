@@ -1,20 +1,25 @@
 package com.banquito.settings.service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.settings.model.Branch;
+import com.banquito.settings.repository.BankEntityRepository;
 import com.banquito.settings.repository.BranchRepository;
 
 @Service
 public class BranchService {
 
     private final BranchRepository branchRepository;
+    private final BankEntityRepository bankEntityRepository;
 
-    public BranchService(BranchRepository branchRepository) {
+    public BranchService(BranchRepository branchRepository, BankEntityRepository bankEntityRepository) {
         this.branchRepository = branchRepository;
+        this.bankEntityRepository = bankEntityRepository;
     }
 
     public Iterable<Branch> findAll() {
@@ -25,6 +30,14 @@ public class BranchService {
         return branchRepository.findByNameLike(name);
     }
 
+    public List<Branch> findByNameLikeOrderByLocation(String name) {
+        return branchRepository.findByNameLikeOrderByLocation(name);
+    }
+
+    public List<Branch> findAllByOrderByLocation() {
+        return branchRepository.findAllByOrderByLocation();
+    }
+
     @Transactional
     public void createBranch(Branch branch) {
         Boolean branchNameExists = this.branchRepository.existsByName(branch.getName());
@@ -32,6 +45,19 @@ public class BranchService {
         if (branchNameExists || branchAddressExists)
             throw new RuntimeException("There is already a branch named like this or in that location");
         else
+            branch.setMondayToFriday(
+                timeToString(
+                    branch.getBranchOfficeHours().getOpeningTimeMondayFriday(),
+                    branch.getBranchOfficeHours().getClosingTimeMondayFriday()
+                )
+            );
+            branch.setSaturday(
+                timeToString(
+                    branch.getBranchOfficeHours().getOpeningTimeSaturday(),
+                    branch.getBranchOfficeHours().getClosingTimeSaturday()
+                )
+            );
+            branch.setBankEntity(bankEntityRepository.findAll().iterator().next());
             checkBranchHasNameAgency(branch);
     }
 
@@ -44,6 +70,20 @@ public class BranchService {
             branchToUpdate.setPhoneNumber(branch.getPhoneNumber());
             branchToUpdate.setAddress(branch.getAddress());
             branchToUpdate.setBranchOfficeHours(branch.getBranchOfficeHours());
+            branchToUpdate.setMondayToFriday(
+                timeToString(
+                    branch.getBranchOfficeHours().getOpeningTimeMondayFriday(),
+                    branch.getBranchOfficeHours().getClosingTimeMondayFriday()
+                )
+            );
+            branchToUpdate.setSaturday(
+                timeToString(
+                    branch.getBranchOfficeHours().getOpeningTimeSaturday(),
+                    branch.getBranchOfficeHours().getClosingTimeSaturday()
+                )
+            );
+            branchToUpdate.setBankEntity(bankEntityRepository.findAll().iterator().next());
+            branchToUpdate.setLocation(branch.getLocation());
             checkBranchHasNameAgency(branchToUpdate);
         }
         else {
@@ -66,5 +106,12 @@ public class BranchService {
         else
             branch.setName("Agencia " + branch.getName());
             this.branchRepository.save(branch);
+    }
+
+    private String timeToString(LocalTime timeOpening, LocalTime timeClosing) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String formattedTimeOpening = timeOpening.format(formatter);
+        String formattedTimeClosing = timeClosing.format(formatter);
+        return formattedTimeOpening + "-" + formattedTimeClosing;
     }
 }
