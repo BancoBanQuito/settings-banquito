@@ -37,4 +37,34 @@ public class HolidayService {
         }
     }
 
+    @Transactional
+	public void updateHoliday(Holiday holiday) {
+		Holiday holidays = this.holidayRepository.findByDate(holiday.getDate()).iterator().next();
+		
+        List<Holiday> holidayList = this.holidayRepository.findByDate(holiday.getDate());
+        if (holidayList.isEmpty()) {
+
+            throw new RuntimeException("There is no Holidays");
+        } else {
+            holidays.setDate(holiday.getDate());
+		holidays.setName(holiday.getName());
+        holidays.setType(holiday.getType());
+		this.holidayRepository.save(holidays);
+        }
+	}
+
+    @Transactional
+	public void deleteHoliday(Holiday holiday) {
+		Holiday holidays = this.holidayRepository.findByDate(holiday.getDate()).iterator().next();
+		
+        List<Holiday> holidayList = this.holidayRepository.findByDate(holiday.getDate());
+        if (holidayList.isEmpty()) {
+
+            throw new RuntimeException("There is no Holidays");
+        } else {
+            
+		this.holidayRepository.delete(holidays);
+        }
+	}
+
 }

@@ -62,4 +62,26 @@ public class HolidayController {
         }
     }
 
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+	public Object updateHoliday(@RequestBody HolidayRQ holidayRQ) {
+        try {
+            this.holidayService.updateHoliday(HolidayMapper.toHoliday(holidayRQ));
+            return ResponseEntity.ok("Holiday updated successfully");
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("There is no Holidays");
+        }
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+	public Object deleteHoliday(@RequestBody HolidayRQ holidayRQ) {
+        try {
+            this.holidayService.deleteHoliday(HolidayMapper.toHoliday(holidayRQ));
+            return ResponseEntity.ok("Holiday deleted successfully");
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("There is no Holidays");
+        }
+    }
+
 }
