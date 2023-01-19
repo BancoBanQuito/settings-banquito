@@ -1,5 +1,6 @@
 package com.banquito.settings.service;
 
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class HolidayService {
 
     @Transactional
     public void createHoliday(Holiday holiday) {
+        
 
         List<Holiday> holidays = this.holidayRepository.findByDate(holiday.getDate());
         if (holidays.isEmpty()) {
@@ -66,5 +68,7 @@ public class HolidayService {
 		this.holidayRepository.delete(holidays);
         }
 	}
+
+    
 
 }
