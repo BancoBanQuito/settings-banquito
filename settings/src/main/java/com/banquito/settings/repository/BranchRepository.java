@@ -10,7 +10,9 @@ import com.banquito.settings.model.Branch;
 @Repository
 public interface BranchRepository extends CrudRepository<Branch, String> {
 
+    List<Branch> findAllByOrderByLocation();
     List<Branch> findByNameLike(String name);
+    List<Branch> findByNameLikeOrderByLocation(String name);
     Boolean existsByName(String name);
     Boolean existsByAddress(String address);
     
