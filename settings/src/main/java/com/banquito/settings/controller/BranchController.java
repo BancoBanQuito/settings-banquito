@@ -31,18 +31,6 @@ public class BranchController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Object findAll() {
-        Iterable<Branch> branches = this.branchService.findAll();
-        List<BranchRS> branchesRS = new ArrayList<>();
-        for (Branch branch : branches)
-            branchesRS.add(BranchMapper.toBranchRS(branch));
-        if (branchesRS.isEmpty())
-            return ResponseEntity.notFound().build();
-        else
-            return ResponseEntity.ok(branchesRS);
-    }
-
-    @RequestMapping(value = "/location/order", method = RequestMethod.GET)
     public Object findAllOrderByLocation() {
         List<Branch> branches = this.branchService.findAllByOrderByLocation();
         List<BranchRS> branchesRS = new ArrayList<>();
@@ -57,18 +45,6 @@ public class BranchController {
     @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
     public Object findByNameLike(@PathVariable("name") String name) {
         Iterable<Branch> branches = this.branchService.findByNameLike(name);
-        List<BranchRS> branchesRS = new ArrayList<>();
-        for (Branch branch : branches)
-            branchesRS.add(BranchMapper.toBranchRS(branch));
-        if (branchesRS.isEmpty())
-            return ResponseEntity.notFound().build();
-        else
-            return ResponseEntity.ok(branchesRS);
-    }
-
-    @RequestMapping(value = "/location/name/{name}", method = RequestMethod.GET)
-    public Object findByNameOrderByLocation(@PathVariable("name") String name) {
-        Iterable<Branch> branches = this.branchService.findByNameLikeOrderByLocation(name);
         List<BranchRS> branchesRS = new ArrayList<>();
         for (Branch branch : branches)
             branchesRS.add(BranchMapper.toBranchRS(branch));

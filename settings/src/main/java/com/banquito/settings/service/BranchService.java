@@ -22,20 +22,12 @@ public class BranchService {
         this.bankEntityRepository = bankEntityRepository;
     }
 
-    public Iterable<Branch> findAll() {
-        return branchRepository.findAll();
+    public List<Branch> findAllByOrderByLocation() {
+        return branchRepository.findAllByOrderByLocation();
     }
 
     public List<Branch> findByNameLike(String name) {
         return branchRepository.findByNameLike(name);
-    }
-
-    public List<Branch> findByNameLikeOrderByLocation(String name) {
-        return branchRepository.findByNameLikeOrderByLocation(name);
-    }
-
-    public List<Branch> findAllByOrderByLocation() {
-        return branchRepository.findAllByOrderByLocation();
     }
 
     @Transactional
