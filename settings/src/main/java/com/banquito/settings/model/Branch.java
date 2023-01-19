@@ -1,6 +1,6 @@
 package com.banquito.settings.model;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
@@ -19,11 +19,12 @@ public class Branch {
     private String name;
     private Integer phoneNumber;
     private String address;
+    private String mondayToFriday;
+    private String saturday;
 
     private BranchOfficeHour branchOfficeHours;
+    private Map<String, Object> location;
     private BankEntity bankEntity;
-    private Location location;
-    private List<Holiday> holidays;
 
     @Version
     private Integer version;
