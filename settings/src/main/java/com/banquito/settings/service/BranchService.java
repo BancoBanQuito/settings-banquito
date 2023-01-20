@@ -43,12 +43,18 @@ public class BranchService {
                     branch.getBranchOfficeHours().getClosingTimeMondayFriday()
                 )
             );
-            branch.setSaturday(
-                timeToString(
-                    branch.getBranchOfficeHours().getOpeningTimeSaturday(),
-                    branch.getBranchOfficeHours().getClosingTimeSaturday()
-                )
-            );
+            if (
+                branch.getBranchOfficeHours().getOpeningTimeSaturday() == null 
+                || branch.getBranchOfficeHours().getClosingTimeSaturday() == null
+            )
+                branch.setSaturday("");
+            else
+                branch.setSaturday(
+                    timeToString(
+                        branch.getBranchOfficeHours().getOpeningTimeSaturday(),
+                        branch.getBranchOfficeHours().getClosingTimeSaturday()
+                    )
+                );
             branch.setBankEntity(bankEntityRepository.findAll().iterator().next());
             checkBranchHasNameAgency(branch);
     }
