@@ -47,7 +47,7 @@ public class BranchService {
                 branch.getBranchOfficeHours().getOpeningTimeSaturday() == null 
                 || branch.getBranchOfficeHours().getClosingTimeSaturday() == null
             )
-                branch.setSaturday("");
+                branch.setSaturday("Cerrado");
             else
                 branch.setSaturday(
                     timeToString(
