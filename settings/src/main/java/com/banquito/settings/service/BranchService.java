@@ -30,6 +30,10 @@ public class BranchService {
         return branchRepository.findByNameLike(name);
     }
 
+    public Branch findByName(String name) {
+        return branchRepository.findByName(name);
+    }
+
     @Transactional
     public void createBranch(Branch branch) {
         Boolean branchNameExists = this.branchRepository.existsByName(branch.getName());
@@ -60,10 +64,10 @@ public class BranchService {
     }
 
     @Transactional
-    public void updateBranch(String id, Branch branch) {
-        Boolean branchExists = this.branchRepository.existsById(id);
+    public void updateBranch(String name, Branch branch) {
+        Boolean branchExists = this.branchRepository.existsByName(name);
         if (branchExists) {
-            Branch branchToUpdate = this.branchRepository.findById(id).get();
+            Branch branchToUpdate = this.branchRepository.findByName(name);
             branchToUpdate.setName(branch.getName());
             branchToUpdate.setPhoneNumber(branch.getPhoneNumber());
             branchToUpdate.setAddress(branch.getAddress());
@@ -90,10 +94,10 @@ public class BranchService {
     }
 
     @Transactional
-    public void deleteBranch(String id) {
-        Boolean branchExists = this.branchRepository.existsById(id);
+    public void deleteBranch(String name) {
+        Boolean branchExists = this.branchRepository.existsByName(name);
         if (branchExists)
-            this.branchRepository.deleteById(id);
+            this.branchRepository.deleteByName(name);
         else
             throw new RuntimeException("The branch was not found");
     }

@@ -44,7 +44,7 @@ public class BranchController {
             return ResponseEntity.ok(branchesRS);
     }
 
-    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/name/like/{name}", method = RequestMethod.GET)
     public Object findByNameLike(@PathVariable("name") String name) {
         Iterable<Branch> branches = this.branchService.findByNameLike(name);
         List<BranchRS> branchesRS = new ArrayList<>();
@@ -54,6 +54,12 @@ public class BranchController {
             return ResponseEntity.notFound().build();
         else
             return ResponseEntity.ok(branchesRS);
+    }
+
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    public Object findByName(@PathVariable("name") String name) {
+        Branch branch = this.branchService.findByName(name);
+        return ResponseEntity.ok(BranchMapper.toBranchRS(branch));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -74,8 +80,8 @@ public class BranchController {
         }
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.PUT)
-    public Object updateBranch(@PathVariable("id") String id, @RequestBody BranchRQ branchRQ) {
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.PUT)
+    public Object updateBranch(@PathVariable("name") String name, @RequestBody BranchRQ branchRQ) {
         try {
             List<Object> listName = new ArrayList<>();
             listName.addAll(branchRQ.getLocation().values());
@@ -85,17 +91,17 @@ public class BranchController {
             if (location.isEmpty())
                 return ResponseEntity.notFound().build();
             else
-                this.branchService.updateBranch(id, BranchMapper.toBranch(branchRQ));
+                this.branchService.updateBranch(name, BranchMapper.toBranch(branchRQ));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
-    public Object deleteBranch(@PathVariable("id") String id) {
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.DELETE)
+    public Object deleteBranch(@PathVariable("name") String name) {
         try {
-            this.branchService.deleteBranch(id);
+            this.branchService.deleteBranch(name);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
