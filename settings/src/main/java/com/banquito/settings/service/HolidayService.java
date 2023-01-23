@@ -59,6 +59,7 @@ public class HolidayService {
             holidays.setDate(holiday.getDate());
 		holidays.setName(holiday.getName());
         holidays.setType(holiday.getType());
+        holidays.setCodigoLocation(holiday.getCodigoLocation());
 		this.holidayRepository.save(holidays);
         }
 	}
