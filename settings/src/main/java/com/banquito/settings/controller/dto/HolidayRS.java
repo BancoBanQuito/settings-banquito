@@ -14,5 +14,5 @@ public class HolidayRS implements Serializable {
     private Date date;
     private String name;
     private String type;
-    
+    private Integer code;
 }

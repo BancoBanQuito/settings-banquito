@@ -23,6 +23,7 @@ public class Holiday {
     private Date date;
     private String name;
     private String type;
+    private Integer codigoLocation;
 
     @Version
     private Integer version;

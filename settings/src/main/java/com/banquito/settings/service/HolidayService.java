@@ -30,6 +30,10 @@ public class HolidayService {
         return holidayRepository.findByName(name);
     }
 
+    public List<Holiday> findByCodeLocation(Integer code){
+        return holidayRepository.findByCodigoLocation(code);
+    }
+
     @Transactional
     public void createHoliday(Holiday holiday) {
         
@@ -98,6 +102,7 @@ public class HolidayService {
             Holiday holiday = new Holiday();
             holiday.setDate(date);
             holiday.setName("Weekend Holiday");
+            holiday.setCodigoLocation(17);
             holiday.setType("NAT");
             createHoliday(holiday);
 
@@ -113,7 +118,7 @@ public class HolidayService {
             if (Integer.parseInt(yearHoliday) <= year) {
                 Holiday sundayHoliday = new Holiday();
                 sundayHoliday.setDate(sunday);
-                
+                sundayHoliday.setCodigoLocation(17);
                 sundayHoliday.setName("Weekend Holiday");
                 sundayHoliday.setType("NAT");
                 createHoliday(sundayHoliday);
@@ -123,6 +128,7 @@ public class HolidayService {
             if (Integer.parseInt(yearHoliday) <= year) {
                 Holiday saturdayHoliday = new Holiday();
                 saturdayHoliday.setDate(saturday);
+                saturdayHoliday.setCodigoLocation(17);
                 saturdayHoliday.setName("Weekend Holiday");
                 saturdayHoliday.setType("NAT");
                 createHoliday(saturdayHoliday);
