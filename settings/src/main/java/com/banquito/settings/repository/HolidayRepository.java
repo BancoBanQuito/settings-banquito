@@ -13,4 +13,5 @@ public interface HolidayRepository extends CrudRepository<Holiday, String> {
     List<Holiday> findByName(String name);
 
     List<Holiday> findByDate(Date date);
+    List<Holiday> findByCodigoLocation(Integer codigoLocation);
 }

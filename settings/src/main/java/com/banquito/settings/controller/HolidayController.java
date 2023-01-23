@@ -51,6 +51,18 @@ public class HolidayController {
             return ResponseEntity.ok(holidaysRS);
     }
 
+    @RequestMapping(value = "/code/{code}", method = RequestMethod.GET)
+    public Object findByCode(@PathVariable("code") Integer code) {
+        Iterable<Holiday> holidays = this.holidayService.findByCodeLocation(code);
+        List<HolidayRS> holidaysRS = new ArrayList<>();
+        for (Holiday holiday : holidays)
+            holidaysRS.add(HolidayMapper.toHolidayRS(holiday));
+        if (holidaysRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(holidaysRS);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Object createHoliday(@RequestBody HolidayRQ holidayRQ) {
         try {

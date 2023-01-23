@@ -27,10 +27,10 @@ public class HolidayMapper {
         Date dateFinal = cal.getTime();
 
         
-        return Holiday.builder().date(dateFinal).name(rq.getName()).type(rq.getType()).build();
+        return Holiday.builder().date(dateFinal).name(rq.getName()).codigoLocation(rq.getCode()).type(rq.getType()).build();
     }
 
     public static HolidayRS toHolidayRS(Holiday holiday) {
-        return HolidayRS.builder().date(holiday.getDate()).name(holiday.getName()).type(holiday.getType()).build();
+        return HolidayRS.builder().date(holiday.getDate()).code(holiday.getCodigoLocation()).name(holiday.getName()).type(holiday.getType()).build();
     }
 }
