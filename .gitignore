@@ -30,3 +30,5 @@ target/
 *.zip
 *.tar.gz
 *.rar
+
+application.properties
