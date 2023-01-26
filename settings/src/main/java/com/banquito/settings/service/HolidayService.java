@@ -40,7 +40,10 @@ public class HolidayService {
 
         List<Holiday> holidays = this.holidayRepository.findByDate(holiday.getDate());
         if (holidays.isEmpty()) {
-
+            if(holiday.getType().equals("Regional") || holiday.getType().equals("regional") )
+            holiday.setType("REG");
+            if(holiday.getType().equals("Nacional") || holiday.getType().equals("nacional"))
+            holiday.setType("NAT");
             this.holidayRepository.save(holiday);
         } else {
             throw new RuntimeException("The Holiday already exists");
@@ -58,7 +61,12 @@ public class HolidayService {
         } else {
             holidays.setDate(holiday.getDate());
 		holidays.setName(holiday.getName());
+        
         holidays.setType(holiday.getType());
+        if(holiday.getType().equals("Regional") || holiday.getType().equals("regional") )
+            holidays.setType("REG");
+            if(holiday.getType().equals("Nacional") || holiday.getType().equals("nacional"))
+            holidays.setType("NAT");
         holidays.setCodigoLocation(holiday.getCodigoLocation());
 		this.holidayRepository.save(holidays);
         }
@@ -102,7 +110,7 @@ public class HolidayService {
 
             Holiday holiday = new Holiday();
             holiday.setDate(date);
-            holiday.setName("Weekend Holiday");
+            holiday.setName("FIN DE SEMANA");
             holiday.setCodigoLocation(17);
             holiday.setType("NAT");
             createHoliday(holiday);
@@ -120,7 +128,7 @@ public class HolidayService {
                 Holiday sundayHoliday = new Holiday();
                 sundayHoliday.setDate(sunday);
                 sundayHoliday.setCodigoLocation(17);
-                sundayHoliday.setName("Weekend Holiday");
+                sundayHoliday.setName("FIN DE SEMANA");
                 sundayHoliday.setType("NAT");
                 createHoliday(sundayHoliday);
             }
@@ -130,7 +138,7 @@ public class HolidayService {
                 Holiday saturdayHoliday = new Holiday();
                 saturdayHoliday.setDate(saturday);
                 saturdayHoliday.setCodigoLocation(17);
-                saturdayHoliday.setName("Weekend Holiday");
+                saturdayHoliday.setName("FIN DE SEMANA");
                 saturdayHoliday.setType("NAT");
                 createHoliday(saturdayHoliday);
             }
