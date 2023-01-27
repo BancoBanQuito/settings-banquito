@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,10 @@ public class HolidayService {
 
     public List<Holiday> findByCodeLocation(Integer code){
         return holidayRepository.findByCodigoLocation(code);
+    }
+
+    public List<Holiday> findbyDate(Date date){
+        return holidayRepository.findByDate(date);
     }
 
     @Transactional
@@ -86,15 +91,11 @@ public class HolidayService {
         }
 	}
 
-    public void generateHolidayByYear(int year) {
+   public void generateHolidayByYear(int year) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, 0, 1);
+        calendar.set(year, 0, 1,0,0,0);
         
-        calendar.set(Calendar.HOUR_OF_DAY,hora);
-        calendar.set(Calendar.HOUR,hora);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+       calendar.set(Calendar.MILLISECOND, 0);
         Date date = calendar.getTime();
         Date sunday;
         Date saturday;
@@ -155,12 +156,9 @@ public class HolidayService {
             return date;
 
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+5"));
         calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY,hora);
-        calendar.set(Calendar.HOUR,hora);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.MILLISECOND,0);
         calendar.add(Calendar.DAY_OF_YEAR, dias);
         return calendar.getTime();
     }
@@ -174,5 +172,5 @@ public class HolidayService {
     }
 
     
-
+   
 }

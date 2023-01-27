@@ -1,8 +1,12 @@
 package com.banquito.settings.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -74,6 +78,25 @@ public class HolidayController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    
+    @RequestMapping(value = "/date/{date}", method = RequestMethod.GET)
+    public Object findByDate(@PathVariable("date") String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date2 = dateFormat.parse(date);
+        Calendar calendar = Calendar.getInstance();
+        
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+5"));
+        calendar.setTime(date2);
+        Iterable<Holiday> holidays = this.holidayService.findbyDate(date2);
+        List<HolidayRS> holidaysRS = new ArrayList<>();
+        for (Holiday holiday : holidays)
+            holidaysRS.add(HolidayMapper.toHolidayRS(holiday));
+        if (holidaysRS.isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(holidaysRS);
     }
 
     @RequestMapping(value = "/{year}", method = RequestMethod.POST)
