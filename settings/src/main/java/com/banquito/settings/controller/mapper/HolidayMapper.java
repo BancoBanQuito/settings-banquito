@@ -22,7 +22,7 @@ public class HolidayMapper {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateF);
 
-        cal.add(Calendar.DATE, 1);
+        cal.add(Calendar.DATE, 0);
         cal.add(Calendar.HOUR, 0);
         Date dateFinal = cal.getTime();
 
