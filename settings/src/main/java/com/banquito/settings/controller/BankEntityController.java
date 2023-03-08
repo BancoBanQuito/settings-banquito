@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.banquito.settings.model.BankEntity;
 import com.banquito.settings.service.BankEntityService;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@CrossOrigin(origins = "*", methods = { org.springframework.web.bind.annotation.RequestMethod.GET,
+	org.springframework.web.bind.annotation.RequestMethod.POST,
+	org.springframework.web.bind.annotation.RequestMethod.PUT,
+	org.springframework.web.bind.annotation.RequestMethod.DELETE}
+)
 @RequestMapping("/api/bank-entity")
 public class BankEntityController {
 
